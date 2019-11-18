@@ -1,18 +1,3 @@
-import React, {Component} from 'react';
-import ReactDom from 'react-dom';
-import $ from 'jquery';
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-  render() {
-    return (
-      <div>
-        Welcome
-      </div>
-    );
-  }
+const randomize = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
 }
-ReactDom.render(<App/>, document.getElementById('app'));
