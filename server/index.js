@@ -4,11 +4,10 @@ const db = require('../database');
 const app = express();
 const port = 3000;
 const path = require('path');
-// const {addDish} = require('../database/index');
-
-// const {findDish} = require('../database/index');
+const cors = require('cors');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 let route = path.join(__dirname, '../client/dist');
 app.use('/', express.static(route));
 app.listen(port, ()=> {
