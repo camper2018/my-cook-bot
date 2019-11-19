@@ -15,36 +15,20 @@ const shuffle = function(array) {
 const fetchItems = (count,cb) => {
   axios.get("http://127.0.0.1:3000/food-items")
   .then((response)=> {
-    // console.log(response.data[0].ingredients);
-    // let  randomized = shuffle(response.data)
     let result = response.data.map(item => {
       let groceryList = item.ingredients.map(val => {
-        // return `${val.name}: ${val.amount} ${val.unit}`
         return {name: val.name, amount: val.amount, unit: val.unit}
       });
-
       return {name:item.name, ingredients: groceryList};
     });
-    // console.log(result);
     return shuffle(result);
   })
   .then((shuffled)=> {
-    // console.log(shuffled.slice(0, count));
     cb(shuffled.slice(0, count));
   })
   .catch((error)=> {
     cb(error);
   });
-  // $.ajax({
-  //   url: "http://127.0.0.1:3000/food-items",
-  //   method:'GET',
-  //   success:(data) => {
-  //     console.log(data);
-  //   },
-  //   error:(err)=> {
-  //     console.log(err);
-  //   }
-  // });
 }
 // fetchItems(1, (i => {
 //   // console.log(i.ingredients[0].name);

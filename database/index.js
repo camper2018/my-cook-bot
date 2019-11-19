@@ -26,7 +26,6 @@ let item = {
 
 connect()
   .then(async connection => {
-    // let result = await foodItem.create(item);
     console.log('connection successful!');
   })
   .catch(e => console.error(e));
@@ -47,7 +46,6 @@ const updateDish = (dishItem,newDish,cb) => {
     if(err) {
       cb(err);
     } else {
-      // console.log('response', res);
       cb('item updated');
     }
   });
