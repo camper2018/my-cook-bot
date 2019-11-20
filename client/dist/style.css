@@ -1,0 +1,50 @@
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+body {
+  font-family: 'Jeju Gothic', sans-serif;
+  margin: 0px;
+  color: #292929;
+  background-color: #F3F3F3;
+}
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  color: #F3F3F3;
+  background-color: #C0163A;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 30px;
+  padding: 10px;
+  font-size: 1em;
+}
+.card {
+  border: 1px solid rgba(0, 0, 0, .25);
+  background-color: rgba(255, 255, 255, .5);
+  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  /* text-align: center; */
+  line-height: 25px;
+}
+.select-label {
+  /* cursor: pointer; */
+  color: blue;
+  /* background-color: #C0163A; */
+  /* margin-right: 15px; */
+  margin-left: 15px;
+  margin-bottom: 30px;
+  padding: 10px;
+  font-size: 1em;
+}
+.food-select {
+  /* border: 1px solid rgba(0, 0, 0, .25); */
+  cursor: pointer;
+  color: black;
+  background-color: lightcoral;
+  /* background-color: grey; */
+  margin-right: 15px;
+  /* margin-left: 15px; */
+  margin-bottom: 30px;
+  font-size: 1em;
+  padding: 2px;
+}

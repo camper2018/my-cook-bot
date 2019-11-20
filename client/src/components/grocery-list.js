@@ -21,7 +21,7 @@ const GroceryList = ({items,groceries}) => {
   }
   console.log('ingredient:', ingredient);
   return (
-    <div>
+    <div className="card">
       <h1>Grocery List</h1>
       <ul>
       {
