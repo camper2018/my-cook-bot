@@ -2,7 +2,6 @@ import React, {useState,Component} from 'react';
 
 
 const GroceryList = ({items,groceries}) => {
-  console.log('groceries:', groceries);
   const groceryList = [];
   const ingredient = {};
   for (var key in groceries) {
@@ -19,7 +18,6 @@ const GroceryList = ({items,groceries}) => {
       groceryList.push(<li>{key}->{ingredient[key]}</li>);
     }
   }
-  console.log('ingredient:', ingredient);
   return (
     <div className="card">
       <h1>Grocery List</h1>

@@ -5,7 +5,7 @@ body {
   color: #292929;
   background-color: #F3F3F3;
 }
-button {
+button,.submit-btn {
   cursor: pointer;
   border: none;
   border-radius: 3px;
@@ -21,30 +21,46 @@ button {
   border: 1px solid rgba(0, 0, 0, .25);
   background-color: rgba(255, 255, 255, .5);
   padding: 10px;
+  padding-top: 20px;
   max-width: 400px;
   margin: 0 auto;
   /* text-align: center; */
   line-height: 25px;
 }
 .select-label {
-  /* cursor: pointer; */
   color: blue;
-  /* background-color: #C0163A; */
-  /* margin-right: 15px; */
   margin-left: 15px;
   margin-bottom: 30px;
   padding: 10px;
   font-size: 1em;
 }
 .food-select {
-  /* border: 1px solid rgba(0, 0, 0, .25); */
   cursor: pointer;
   color: black;
-  background-color: lightcoral;
-  /* background-color: grey; */
+  background-color: lightpink;
   margin-right: 15px;
-  /* margin-left: 15px; */
   margin-bottom: 30px;
   font-size: 1em;
   padding: 2px;
+}
+.form-label {
+  font-size: 1.2em;
+
+}
+.form-input {
+  font-size: 1em;
+  margin-left: 20px;
+  background-color: lightpink;
+}
+.form-textarea {
+  font-size: 1em;
+  margin-left: 20px;
+  margin-top:50px;
+  background-color: lightpink;
+  height: 100px;
+  width: 200px;
+  border: 1px solid bold gray;
+}
+.submit-btn {
+  margin-left :2px;
 }

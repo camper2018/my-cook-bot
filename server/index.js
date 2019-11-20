@@ -22,13 +22,24 @@ app.get('/food-items', (req, res)=> {
 app.get('/food-item/:name', (req, res) => {
   let item = req.params.name;
   db.findDish(item, (result) => {
-     res.send(result);
+     res.json(result);
   });
 });
 app.post('/food-item/add',(req, res)=> {
   let item = req.body;
-  // console.log(item);
-  db.addDish(item, (result)=> {
+  let dish = {
+    name: item.name,
+    ingredients:[]
+  }
+  let ingredients = item.ingredients.split(",");
+  ingredients.forEach((ingredient)=> {
+    ingredientChunks = ingredient.split(":");
+    let name = ingredientChunks[0];
+    let amount = ingredientChunks[1];
+    let unit = ingredientChunks[2];
+    dish.ingredients.push({name,amount,unit});
+  });
+  db.addDish(dish, (result)=> {
     res.send(result);
   })
 });
