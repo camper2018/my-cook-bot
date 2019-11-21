@@ -4,6 +4,7 @@ import {fetchItems} from './index';
 import GroceryList from './components/grocery-list'
 import AddDishForm from './components/add-fooditem-form';
 import FormatSearchedData from './components/format-search';
+import UpdateDishForm from './components/update-form';
 import axios from 'axios';
 const App= () => {
   const foodList = [];
@@ -11,30 +12,52 @@ const App= () => {
   const [groceries, setGroceries] = useState({});
   const [view, setview] = useState(1);
   const [searchedData, setSearchedData] = useState(null);
+  const [updateItem, setUpdateItem] = useState('');
+  // const generateList = (e) => {
+  //   let count = Number(e.target.value);
+  //   fetchItems(count,(items) =>  {
+  //     let result = [];
+  //      let obj = {};
+  //     items.forEach((item)=> {
+  //       result = result.concat(item.ingredients);
+  //     });
+  //     result.forEach(ingredient => {
+  //       if (obj[ingredient.name]) {
+  //         obj[ingredient.name] += ingredient.amount;
+  //         obj[ingredient.name + "-unit"] = ingredient.unit;
+  //       } else {
+  //         obj[ingredient.name] = ingredient.amount;
+  //         obj[ingredient.name + "-unit"] = ingredient.unit;
+  //       }
+  //     });
+  //     setItems(items);
+  //     setGroceries(obj);
+  //     setview(2);
+  //   });
+  // }
   const generateList = (e) => {
     let count = Number(e.target.value);
-    fetchItems(count,(items) =>  {
-      let result = [];
-       let obj = {};
-      items.forEach((item)=> {
-        result = result.concat(item.ingredients);
-      });
-      result.forEach(ingredient => {
-        if (obj[ingredient.name]) {
-          obj[ingredient.name] += ingredient.amount;
-          obj[ingredient.name + "-unit"] = ingredient.unit;
-        } else {
-          obj[ingredient.name] = ingredient.amount;
-          obj[ingredient.name + "-unit"] = ingredient.unit;
-        }
-      });
-      setItems(items);
-      setGroceries(obj);
+    fetchItems(count,(fetchedItems) =>  {
+      setItems(fetchedItems);
       setview(2);
     });
   }
-
   const generateGroceryList = ()=> {
+    let result = [];
+    let obj = {};
+    items.forEach((item)=> {
+      result = result.concat(item.ingredients);
+    });
+    result.forEach(ingredient => {
+      if (obj[ingredient.name]) {
+        obj[ingredient.name] += ingredient.amount;
+        obj[ingredient.name + "-unit"] = ingredient.unit;
+      } else {
+        obj[ingredient.name] = ingredient.amount;
+        obj[ingredient.name + "-unit"] = ingredient.unit;
+      }
+    });
+    setGroceries(obj);
     setview(3);
   }
   const addFoodHandler = ()=> {
@@ -45,7 +68,7 @@ const App= () => {
       return (<div className="card">
       <ol>
         {
-          items.map((item, i) => <li key={i}>{item.name}</li>)
+          items.map((item, i) => <li key={item.name}>{item.name}<button id={item.name} onClick={handleErase}>Erase</button></li>)
         }
       </ol>
     </div>)
@@ -55,20 +78,36 @@ const App= () => {
       return <AddDishForm/>
     } else if (view === 5) {
       return <FormatSearchedData searchedData={searchedData}/>
+    } else if (view === 6) {
+      return <UpdateDishForm updateItem={updateItem}/>
     } else {
       return null
     }
   }
   const handleSearch = ()=> {
     const searchInput = document.getElementById('search-input').value;
-    axios.get(`http://127.0.0.1:3000/food-item/${searchInput}`)
-    .then((response)=> {
-      setSearchedData(response.data);
-      setview(5);
-    })
-    .catch((error)=> {
-      console.error("item not found!", error );
-    })
+    if (searchInput) {
+      axios.get(`http://127.0.0.1:3000/food-item/${searchInput}`)
+      .then((response)=> {
+        setSearchedData(response.data);
+        setview(5);
+      })
+      .catch((error)=> {
+        console.error("item not found!", error );
+      });
+    }
+  }
+  const handleUpdate = () => {
+    const searchInput = document.getElementById('search-input').value;
+    setview(6);
+    setUpdateItem(searchInput);
+  }
+  const handleErase = (e) => {
+    let name = e.target.id;
+    let newItems = items.filter((item)=> {
+      return item.name !== name;
+    });
+    setItems(newItems);
   }
   return (
     <div>
@@ -91,10 +130,12 @@ const App= () => {
         <option value="21">3 weeks</option>
         <option value="30">1 month</option>
       </select>
-      <button onClick={generateGroceryList}>Generate Food List</button>
-      <button onClick={addFoodHandler}>Add Food</button>
-      <button onClick={handleSearch}>Search Food</button>
+      <button onClick={generateGroceryList}>Generate Grocery List</button>
+      <button onClick={addFoodHandler}>Add Dish</button>
+      <button onClick={handleSearch}>Search Dish</button>
       <input id="search-input" type="text" name="search" placeholder="Enter dish name"/>
+      <button onClick={handleUpdate}>Update Dish</button>
+      <button>Delete Dish</button>
       <div className="main">
         {
           <SwitchComponent/>

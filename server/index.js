@@ -14,6 +14,21 @@ app.listen(port, ()=> {
   console.log(`listening on port ${port}`);
 });
 
+const formatPostDataForDB = (data) => {
+  let dish = {
+    name: data.name,
+    ingredients:[]
+  }
+  let ingredients = data.ingredients.split(",");
+  ingredients.forEach((ingredient)=> {
+    ingredientChunks = ingredient.split(":");
+    let name = ingredientChunks[0];
+    let amount = ingredientChunks[1];
+    let unit = ingredientChunks[2];
+    dish.ingredients.push({name,amount,unit});
+  });
+  return dish;
+}
 app.get('/food-items', (req, res)=> {
   db.getAll((result)=> {
     res.send(result);
@@ -27,27 +42,19 @@ app.get('/food-item/:name', (req, res) => {
 });
 app.post('/food-item/add',(req, res)=> {
   let item = req.body;
-  let dish = {
-    name: item.name,
-    ingredients:[]
-  }
-  let ingredients = item.ingredients.split(",");
-  ingredients.forEach((ingredient)=> {
-    ingredientChunks = ingredient.split(":");
-    let name = ingredientChunks[0];
-    let amount = ingredientChunks[1];
-    let unit = ingredientChunks[2];
-    dish.ingredients.push({name,amount,unit});
-  });
-  db.addDish(dish, (result)=> {
-    res.send(result);
+  let dishItem = formatPostDataForDB(item);
+  db.addDish(dishItem, (result)=> {
+    res.redirect('/');
+    // res.send(result);
   })
 });
-app.put('/update/:name', (req, res)=> {
+app.post('/update/:name', (req, res)=> {
   let item = req.params.name;
   let newItem = req.body;
-  db.updateDish(item, newItem, (result)=> {
-    res.send(result);
+  let dishItem = formatPostDataForDB(newItem);
+  db.updateDish(item, dishItem, (result)=> {
+    // res.send(result);
+    res.redirect('/');
   })
 });
 app.delete('/delete/:name', (req, res)=> {

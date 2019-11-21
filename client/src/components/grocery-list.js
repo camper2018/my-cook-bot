@@ -24,7 +24,7 @@ const GroceryList = ({items,groceries}) => {
       <ul>
       {
         Object.keys(ingredient).map(item =>
-          <li>{item} : {ingredient[item]}</li>
+          <li key={item}>{item} : {ingredient[item]}</li>
         )
       }
       </ul>
