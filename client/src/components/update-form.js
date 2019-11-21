@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-
+import $ from 'jquery';
 const UpdateDishForm = ({updateItem}) => {
-  console.log(updateItem)
+
   const inputFormat = `FORMAT: \n(ingredient name : amount as a number : unit) \n(chicken : 2 : lbs \n tomatoes : 4 : tomatoes)`;
   const url = `http://127.0.0.1:3000/update/${updateItem}`;
   return (

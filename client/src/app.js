@@ -98,7 +98,7 @@ const App= () => {
     }
   }
   const handleUpdate = () => {
-    const searchInput = document.getElementById('search-input').value;
+    const searchInput = document.getElementById('update-input').value;
     setview(6);
     setUpdateItem(searchInput);
   }
@@ -108,6 +108,21 @@ const App= () => {
       return item.name !== name;
     });
     setItems(newItems);
+  }
+  const handleDelete = ()=> {
+    let name = document.getElementById('delete-input').value;
+    let url = `http://127.0.0.1:3000/delete/${name}`;
+    axios.delete(url)
+    .then((response)=> {
+      if (response.data) {
+        alert(`${name} deleted`);
+      } else {
+        alert(`${name} not found`);
+      }
+    })
+    .catch((error)=> {
+      alert(`error deleting ${name}`, error);
+    });
   }
   return (
     <div>
@@ -132,10 +147,14 @@ const App= () => {
       </select>
       <button onClick={generateGroceryList}>Generate Grocery List</button>
       <button onClick={addFoodHandler}>Add Dish</button>
-      <button onClick={handleSearch}>Search Dish</button>
-      <input id="search-input" type="text" name="search" placeholder="Enter dish name"/>
-      <button onClick={handleUpdate}>Update Dish</button>
-      <button>Delete Dish</button>
+
+      <button onClick={handleSearch}>Search</button>
+      <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
+      <button onClick={handleUpdate}>Update</button>
+      <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
+      <button onClick={handleDelete}>Delete</button>
+      <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+
       <div className="main">
         {
           <SwitchComponent/>

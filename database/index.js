@@ -58,12 +58,14 @@ const findDish = (item, cb) => {
     cb(res);
   });
 }
+
 const deleteItem = (item, cb) => {
-  foodItem.deleteOne({name:item},(err, deleted)=> {
-    if(err) {
-      cb(err);
+  foodItem.findOneAndDelete({name:item}).exec((error, res)=> {
+    if(error) {
+      cb(error);
+    } else {
+      cb(res);
     }
-    cb('item deleted');
   })
 }
 const getAll = (cb)=> {

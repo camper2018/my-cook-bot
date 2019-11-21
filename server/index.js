@@ -59,7 +59,7 @@ app.post('/update/:name', (req, res)=> {
 });
 app.delete('/delete/:name', (req, res)=> {
   let item = req.params.name;
-  db.deleteItem(item, (result)=> {
+  db.deleteItem(item,(result)=> {
     res.send(result);
   });
 });
