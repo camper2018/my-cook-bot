@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-const AddDishForm = (props) => {
+const AddDishForm = ({handleSubmitAdd}) => {
   const inputFormat = `FORMAT: \n(ingredient name : amount as a number : unit) \n(chicken : 2 : lbs \n tomatoes : 4 : tomatoes)`;
   return (
-    <form className="card" action="http://127.0.0.1:3000/food-item/add" method="POST">
+    <form className="card" id="add-form" onSubmit={handleSubmitAdd} /*action="http://127.0.0.1:3000/add" method="POST"*/>
       <label className="form-label">Dish Name: </label>
       <input className="form-input" type="text" name="name" placeholder="Dish Name" /><br/>
       <label className="form-label">Ingredients: </label>

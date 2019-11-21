@@ -13,8 +13,11 @@ const GroceryList = ({items,groceries}) => {
     }
     if (ingredient[key]) {
       let item = ingredient[key].toString();
-      ingredient[key] = item + " " + unit;
-
+      if (unit){
+        ingredient[key] = item + " " + unit;
+      } else {
+        ingredient[key] = item;
+      }
       groceryList.push(<li>{key}->{ingredient[key]}</li>);
     }
   }

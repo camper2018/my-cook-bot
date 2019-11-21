@@ -44,20 +44,19 @@ app.post('/food-item/add',(req, res)=> {
   let item = req.body;
   let dishItem = formatPostDataForDB(item);
   db.addDish(dishItem, (result)=> {
-    res.redirect('/');
-    // res.send(result);
+    res.send(result);
   })
 });
-app.post('/update/:name', (req, res)=> {
+app.post('/food-item/update/:name', (req, res)=> {
   let item = req.params.name;
   let newItem = req.body;
+  console.log('newItem:', newItem);
   let dishItem = formatPostDataForDB(newItem);
   db.updateDish(item, dishItem, (result)=> {
-    // res.send(result);
-    res.redirect('/');
+    res.send(result);
   })
 });
-app.delete('/delete/:name', (req, res)=> {
+app.delete('/food-item/delete/:name', (req, res)=> {
   let item = req.params.name;
   db.deleteItem(item,(result)=> {
     res.send(result);

@@ -42,7 +42,7 @@ const addDish  = (dishItem, cb) => {
   });
 };
 const updateDish = (dishItem,newDish,cb) => {
-  foodItem.findOneAndUpdate({name:dishItem}, newDish, {useFindAndModify: false}).exec((err, res)=> {
+  foodItem.findOneAndUpdate({name:dishItem}, newDish, {useFindAndModify: false,upsert: true}).exec((err, res)=> {
     if(err) {
       cb(err);
     } else {
@@ -60,9 +60,9 @@ const findDish = (item, cb) => {
 }
 
 const deleteItem = (item, cb) => {
-  foodItem.findOneAndDelete({name:item}).exec((error, res)=> {
-    if(error) {
-      cb(error);
+  foodItem.findOneAndDelete({name:item},{useFindAndModify: false}).exec((err, res)=> {
+    if(err) {
+      cb(err);
     } else {
       cb(res);
     }
