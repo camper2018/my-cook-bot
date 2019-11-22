@@ -35,12 +35,7 @@ app.get('/food-items', (req, res)=> {
     res.send(result);
   });
 });
-// app.get('/food-item', (req, res) => {
-//   db.getAll((result)=> {
-//     res.send(result.data[0]);
 
-//   })
-// })
 app.get('/food-item/:name', (req, res) => {
   let item = req.params.name;
   db.findDish(item, (result) => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDom from 'react-dom';
 import {fetchItems} from './index';
 import GroceryList from './components/grocery-list'
@@ -16,8 +16,8 @@ const App= () => {
   const [view, setview] = useState(1);
   // searchedData is a data returned as a result of search query -refer handleSearch() below
   const [searchedData, setSearchedData] = useState(null);
-  // updateItem is the name of item to be updated i.e update input value - refer handleUpdate() below
-  const [updateItem, setUpdateItem] = useState('');
+  // itemToBeUpdated is an object that refers to the item to be updated  - refer handleUpdate() below
+  const [itemToBeUpdated, setItemToBeUpdated] = useState(null);
 
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
@@ -68,7 +68,7 @@ const App= () => {
     } else if (view === 5) {
       return <FormatSearchedData handleAddToList={handleAddToList} searchedData={searchedData}/>
     } else if (view === 6) {
-      return <UpdateDishForm handleSubmitUpdate={handleSubmitUpdate}/>
+      return <UpdateDishForm itemToBeUpdated={itemToBeUpdated} handleSubmitUpdate={handleSubmitUpdate}/>
     } else {
       return null
     }
@@ -113,9 +113,25 @@ const App= () => {
   //changes view to render UpdateDishForm component - refer update-form.js
   const handleUpdate = () => {
     const updateInput = document.getElementById('update-input').value;
-    setview(6);
-    setUpdateItem(updateInput);
     document.getElementById('update-input').value = "";
+    if (updateInput) {
+      axios.get(`http://127.0.0.1:3000/food-item/${updateInput}`)
+      .then((result) => {
+        if (result.data) {
+          let name = result.data.name;
+          let ingredients = result.data.ingredients;
+          let recipe = result.data.recipe;
+          let resultObject = {name, ingredients, recipe};
+          setItemToBeUpdated(resultObject);
+          setview(6);
+        } else {
+          alert(`${updateInput} is not found in database.Consider adding it first`)
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
+    }
   }
   //Removes/filters the item from the items variable when client clicks on erase button.
   const handleErase = (e) => {
@@ -150,9 +166,9 @@ const App= () => {
     let ingredients = e.target.ingredients.value;
     let recipe = e.target.recipe.value;
     let data = {name,ingredients,recipe}
-    axios.post(`http://127.0.0.1:3000/food-item/update/${updateItem}`, data)
+    axios.post(`http://127.0.0.1:3000/food-item/update/${itemToBeUpdated.name}`, data)
     .then((response)=> {
-      alert(`updated ${updateItem} `);
+      alert(`updated ${itemToBeUpdated.name} `);
     })
     .catch((error)=> {
       alert(JSON.stringify(error));
@@ -171,6 +187,8 @@ const App= () => {
     });
     if (!wasFound) {
       setItems([...items, searchedData]);
+    } else {
+      alert(`${searchedData.name} is already in your list`)
     }
     setview(2);
   }
