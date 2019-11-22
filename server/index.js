@@ -17,7 +17,8 @@ app.listen(port, ()=> {
 const formatPostDataForDB = (data) => {
   let dish = {
     name: data.name,
-    ingredients:[]
+    ingredients:[],
+    recipe: data.recipe
   }
   let ingredients = data.ingredients.split(",");
   ingredients.forEach((ingredient)=> {
@@ -50,7 +51,6 @@ app.post('/food-item/add',(req, res)=> {
 app.post('/food-item/update/:name', (req, res)=> {
   let item = req.params.name;
   let newItem = req.body;
-  console.log('newItem:', newItem);
   let dishItem = formatPostDataForDB(newItem);
   db.updateDish(item, dishItem, (result)=> {
     res.send(result);
@@ -58,7 +58,7 @@ app.post('/food-item/update/:name', (req, res)=> {
 });
 app.delete('/food-item/delete/:name', (req, res)=> {
   let item = req.params.name;
-  db.deleteItem(item,(result)=> {
+  db.deleteDish(item,(result)=> {
     res.send(result);
   });
 });

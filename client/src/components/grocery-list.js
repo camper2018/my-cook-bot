@@ -1,7 +1,6 @@
-import React, {useState,Component} from 'react';
+import React from 'react';
 
-
-const GroceryList = ({items,groceries}) => {
+const GroceryList = ({groceries}) => {
   const groceryList = [];
   const ingredient = {};
   for (var key in groceries) {

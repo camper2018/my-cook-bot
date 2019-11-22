@@ -8,22 +8,14 @@ const connect = () => {
 // define model schema
 const foodSchema = new mongoose.Schema({
   name: {type: String, required: true,  useCreateIndex: true},
-  ingredients: [{name:{type:String,required:true}, amount:{type: Number},unit:{type:String}}]
+  ingredients: [{name:{type:String,required:true}, amount:{type: Number},unit:{type:String}}],
+  recipe:String
 });
-// create collection (table) using mongoose model
 
+// create collection (table) using mongoose model
 const foodItem = mongoose.model('foodItem',foodSchema);
 
-let item = {
-  name:'omlette',
-  ingredients: [{name:'egg', count:4, unit:'none'},
-              {name:'bellPepper', count:1/2,unit:'none'},
-              {name: 'mushroom', count: 4,unit: 'none'},
-              {name: 'spinach', count: 1/4, unit: 'cup'},
-              {name: 'cheese', count: 1/4, unit:'cup'}]
-
-}
-
+// start connection
 connect()
   .then(async connection => {
     console.log('connection successful!');
@@ -31,7 +23,7 @@ connect()
   .catch(e => console.error(e));
 
 
-
+// CRUD functions:
 
 const addDish  = (dishItem, cb) => {
   foodItem.create(dishItem).then((response) => {
@@ -59,7 +51,7 @@ const findDish = (item, cb) => {
   });
 }
 
-const deleteItem = (item, cb) => {
+const deleteDish = (item, cb) => {
   foodItem.findOneAndDelete({name:item},{useFindAndModify: false}).exec((err, res)=> {
     if(err) {
       cb(err);
@@ -76,13 +68,11 @@ const getAll = (cb)=> {
       cb(res);
     }
   });
-
-
 }
 
 module.exports.addDish = addDish;
 module.exports.findDish = findDish;
 module.exports.updateDish = updateDish;
-module.exports.deleteItem = deleteItem;
+module.exports.deleteDish = deleteDish;
 module.exports.getAll = getAll;
 

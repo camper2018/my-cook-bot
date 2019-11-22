@@ -47,6 +47,12 @@ button,.submit-btn {
   font-size: 1.2em;
 
 }
+.form-label.name {
+  margin-right: 5px;
+}
+.form-label.recipe {
+  margin-right: 36px;
+}
 .form-input {
   font-size: 1em;
   margin-left: 20px;

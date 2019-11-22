@@ -1,4 +1,4 @@
-import React, {useState,Component} from 'react';
+import React, {useState} from 'react';
 import ReactDom from 'react-dom';
 import {fetchItems} from './index';
 import GroceryList from './components/grocery-list'
@@ -52,13 +52,13 @@ const App= () => {
       </ol>
     </div>)
     }else if (view === 3) {
-      return <GroceryList items={items} groceries={groceries} />
+      return <GroceryList groceries={groceries} />
     } else if (view === 4) {
       return <AddDishForm handleSubmitAdd={handleSubmitAdd}/>
     } else if (view === 5) {
       return <FormatSearchedData searchedData={searchedData}/>
     } else if (view === 6) {
-      return <UpdateDishForm updateItem={updateItem} handleSubmitUpdate={handleSubmitUpdate}/>
+      return <UpdateDishForm handleSubmitUpdate={handleSubmitUpdate}/>
     } else {
       return null
     }
@@ -67,7 +67,8 @@ const App= () => {
     e.preventDefault();
     let name = e.target.name.value;
     let ingredients = e.target.ingredients.value;
-    let data = {name,ingredients}
+    let recipe = e.target.recipe.value;
+    let data = {name,ingredients,recipe};
     console.log(data);
     $.ajax({
       url: "http://127.0.0.1:3000/food-item/add",
@@ -102,9 +103,9 @@ const App= () => {
     }
   }
   const handleUpdate = () => {
-    const searchInput = document.getElementById('update-input').value;
+    const updateInput = document.getElementById('update-input').value;
     setview(6);
-    setUpdateItem(searchInput);
+    setUpdateItem(updateInput);
     document.getElementById('update-input').value = "";
   }
   const handleErase = (e) => {
@@ -134,7 +135,8 @@ const App= () => {
     e.preventDefault();
     let name = e.target.name.value;
     let ingredients = e.target.ingredients.value;
-    let data = {name,ingredients}
+    let recipe = e.target.recipe.value;
+    let data = {name,ingredients,recipe}
     console.log(data);
     $.ajax({
       url: `http://127.0.0.1:3000/food-item/update/${updateItem}`,
@@ -173,14 +175,12 @@ const App= () => {
       </select>
       <button onClick={generateGroceryList}>Generate Grocery List</button>
       <button onClick={handleAdd}>Add Dish</button>
-
       <button onClick={handleSearch}>Search</button>
       <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
       <button onClick={handleUpdate}>Update</button>
       <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
       <button onClick={handleDelete}>Delete</button>
       <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
-
       <div className="main">
         {
           <SwitchComponent/>
