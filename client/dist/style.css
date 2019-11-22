@@ -57,6 +57,7 @@ button,.submit-btn {
   font-size: 1em;
   margin-left: 20px;
   background-color: lightpink;
+  cursor:auto;
 }
 .form-textarea {
   font-size: 1em;
@@ -66,7 +67,9 @@ button,.submit-btn {
   height: 100px;
   width: 200px;
   border: 1px solid bold gray;
+  cursor:auto;
 }
 .submit-btn {
   margin-left :2px;
+  cursor: pointer;
 }

@@ -7,13 +7,20 @@ import FormatSearchedData from './components/format-search';
 import UpdateDishForm from './components/update-form';
 import axios from 'axios';
 import $ from 'jquery';
+
 const App= () => {
-  const foodList = [];
-  const [items, setItems] = useState(foodList);
+  // items contains fetched data as a return value of fetchItems()- refer index.js
+  const [items, setItems] = useState([]);
+  // groceries contains generated grocery list from items - refer grocery-list.js
   const [groceries, setGroceries] = useState({});
+  // view is a number that switch rendering between different components via SwitchComponent - see below
   const [view, setview] = useState(1);
+  // searchedData is a data returned as a result of search query -refer handleSearch() below
   const [searchedData, setSearchedData] = useState(null);
+  // updateItem is the name of item to be updated i.e update input value - refer handleUpdate() below
   const [updateItem, setUpdateItem] = useState('');
+
+  // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
     let count = Number(e.target.value);
     fetchItems(count,(fetchedItems) =>  {
@@ -21,6 +28,8 @@ const App= () => {
       setview(2);
     });
   }
+  // creates a grocery list by combining ingredients from all the items and stores it in Groceries variable
+  // Groceries is used by GroceryList rendering component - refer grocery-list.js
   const generateGroceryList = ()=> {
     let result = [];
     let obj = {};
@@ -39,9 +48,11 @@ const App= () => {
     setGroceries(obj);
     setview(3);
   }
+  // changes view to render AddDishForm component
   const handleAdd = ()=> {
     setview(4);
   }
+  // swiches rendering of different components on the same page
   const SwitchComponent = () => {
     if (view === 2) {
       return (<div className="card">
@@ -63,6 +74,7 @@ const App= () => {
       return null
     }
   }
+  // An event handler that submits 'Add Dish' form - refer add-fooditem-form.js
   const handleSubmitAdd = (e) => {
     e.preventDefault();
     let name = e.target.name.value;
@@ -84,6 +96,8 @@ const App= () => {
     });
     setview(1);
   }
+  // fetches the item as per search query and stores it as 'searchedData'
+  // changes view to render FormatSearchedData component - refer format-search.js
   const handleSearch = ()=> {
     const searchInput = document.getElementById('search-input').value;
     if (searchInput) {
@@ -102,12 +116,15 @@ const App= () => {
       });
     }
   }
+  // sets value of updateItem to input value of update query
+  //changes view to render UpdateDishForm component - refer update-form.js
   const handleUpdate = () => {
     const updateInput = document.getElementById('update-input').value;
     setview(6);
     setUpdateItem(updateInput);
     document.getElementById('update-input').value = "";
   }
+  //Removes/filters the item from the items variable when client clicks on erase button.
   const handleErase = (e) => {
     let name = e.target.id;
     let newItems = items.filter((item)=> {
@@ -115,6 +132,7 @@ const App= () => {
     });
     setItems(newItems);
   }
+  // deletes the requested item from database
   const handleDelete = ()=> {
     let name = document.getElementById('delete-input').value;
     let url = `http://127.0.0.1:3000/food-item/delete/${name}`;
@@ -131,6 +149,7 @@ const App= () => {
     });
     document.getElementById('delete-input').value = "";
   }
+  // An event handler that submits 'Update' form - refer update-form.js
   const handleSubmitUpdate = (e) => {
     e.preventDefault();
     let name = e.target.name.value;

@@ -1,6 +1,5 @@
 const axios = require('axios');
-var $ = require("jquery");
-
+// function that shuffles the items in an array
 const shuffle = function(array) {
   var shuffled = array.slice();
   for (var i = 0; i < array.length; i++) {
@@ -12,9 +11,14 @@ const shuffle = function(array) {
   return shuffled;
 };
 
+// function that fetches all data from database,
+//formats the data as required ,
+//shuffles and passes a result array of length equal to count argument to the callback.
+
 const fetchItems = (count,cb) => {
   axios.get("http://127.0.0.1:3000/food-items")
   .then((response)=> {
+    // response.data is an array of objects with name, ingredients and recipe properties
     let result = response.data.map(item => {
       let groceryList = item.ingredients.map(val => {
         return {name: val.name, amount: val.amount, unit: val.unit}
@@ -30,7 +34,5 @@ const fetchItems = (count,cb) => {
     cb(error);
   });
 }
-// fetchItems(1, (i => {
-//   // console.log(i.ingredients[0].name);
-// }));
+
 module.exports = {fetchItems};
