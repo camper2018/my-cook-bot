@@ -66,7 +66,7 @@ const App= () => {
     } else if (view === 4) {
       return <AddDishForm handleSubmitAdd={handleSubmitAdd}/>
     } else if (view === 5) {
-      return <FormatSearchedData searchedData={searchedData}/>
+      return <FormatSearchedData handleAddToList={handleAddToList} searchedData={searchedData}/>
     } else if (view === 6) {
       return <UpdateDishForm handleSubmitUpdate={handleSubmitUpdate}/>
     } else {
@@ -105,7 +105,7 @@ const App= () => {
         document.getElementById('search-input').value = "";
       })
       .catch((error)=> {
-        console.error(error);
+        alert(error);
       });
     }
   }
@@ -124,6 +124,7 @@ const App= () => {
       return item.name !== name;
     });
     setItems(newItems);
+
   }
   // deletes the requested item from database
   const handleDelete = ()=> {
@@ -158,6 +159,22 @@ const App= () => {
     });
     setview(1);
   }
+  // when a searched item needs to be added to the lists of items and groceries,
+  // this handler on 'Add To List' button checks for any duplicate entry,
+  // then adds the searched item to the grocery list
+  const handleAddToList = ()=> {
+    let wasFound = false;
+    items.forEach(item => {
+      if (item.name === searchedData.name) {
+        wasFound = true;
+      }
+    });
+    if (!wasFound) {
+      setItems([...items, searchedData]);
+    }
+    setview(2);
+  }
+
   return (
     <div>
       <center>
