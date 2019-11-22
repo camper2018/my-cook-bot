@@ -6,7 +6,6 @@ import AddDishForm from './components/add-fooditem-form';
 import FormatSearchedData from './components/format-search';
 import UpdateDishForm from './components/update-form';
 import axios from 'axios';
-import $ from 'jquery';
 
 const App= () => {
   // items contains fetched data as a return value of fetchItems()- refer index.js
@@ -81,18 +80,12 @@ const App= () => {
     let ingredients = e.target.ingredients.value;
     let recipe = e.target.recipe.value;
     let data = {name,ingredients,recipe};
-    console.log(data);
-    $.ajax({
-      url: "http://127.0.0.1:3000/food-item/add",
-      type: 'POST',
-      data: data,
-      success: (res => {
-        console.log(res);
-      alert(`Added ${name} `);
-      }),
-      error: (error => {
-        alert(JSON.stringify(error));
-      })
+    axios.post('http://127.0.0.1:3000/food-item/add',data)
+    .then((response)=> {
+      alert(`Added ${name}`);
+    })
+    .catch((error)=> {
+      alert(JSON.stringify(error));
     });
     setview(1);
   }
@@ -156,18 +149,12 @@ const App= () => {
     let ingredients = e.target.ingredients.value;
     let recipe = e.target.recipe.value;
     let data = {name,ingredients,recipe}
-    console.log(data);
-    $.ajax({
-      url: `http://127.0.0.1:3000/food-item/update/${updateItem}`,
-      type: 'POST',
-      data: data,
-      success: (res => {
-        console.log(res);
+    axios.post(`http://127.0.0.1:3000/food-item/update/${updateItem}`, data)
+    .then((response)=> {
       alert(`updated ${updateItem} `);
-      }),
-      error: (error => {
-        alert(JSON.stringify(error));
-      })
+    })
+    .catch((error)=> {
+      alert(JSON.stringify(error));
     });
     setview(1);
   }
