@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../database');
-const {convertFractionToFloat} = require('../client/src/index');
+const {formatPostDataForDB} = require('./helpers');
 const app = express();
 const port = 3000;
 const path = require('path');
@@ -15,26 +15,6 @@ app.listen(port, ()=> {
   console.log(`listening on port ${port}`);
 });
 
-const formatPostDataForDB = (data) => {
-  let dish = {
-    name: data.name,
-    ingredients:[],
-    recipe: data.recipe
-  }
-  let ingredients = data.ingredients.split(",");
-  ingredients.forEach((ingredient)=> {
-    ingredientChunks = ingredient.split(":");
-    let name = ingredientChunks[0];
-    let amount = ingredientChunks[1];
-    console.log('amount:',amount)
-    if (typeof amount === 'string') {
-      amount = convertFractionToFloat(amount);
-    }
-    let unit = ingredientChunks[2];
-    dish.ingredients.push({name,amount,unit});
-  });
-  return dish;
-}
 app.get('/food-items', (req, res)=> {
   db.getAll((result)=> {
     res.send(result);
@@ -50,6 +30,7 @@ app.get('/food-item/:name', (req, res) => {
 app.post('/food-item/add',(req, res)=> {
   let item = req.body;
   let dishItem = formatPostDataForDB(item);
+  console.log(dishItem)
   db.addDish(dishItem, (result)=> {
     res.send(result);
   })

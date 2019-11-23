@@ -18,7 +18,7 @@ const GroceryList = ({groceries}) => {
     // now set their values to be equal to quantity and unit if available.
     if (ingredient[key]) {
       let value = ingredient[key].toString();
-      if (unit){
+      if (unit !== undefined && unit !== '') {
         ingredient[key] = value + " " + unit;
       } else {
         ingredient[key] = value;

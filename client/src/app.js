@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import ReactDom from 'react-dom';
-import {fetchItems} from './index';
+import {fetchItems} from '../../server/helpers';
 import GroceryList from './components/grocery-list'
 import AddDishForm from './components/add-fooditem-form';
 import FormatSearchedData from './components/format-search';
@@ -118,7 +118,7 @@ const App= () => {
       axios.get(`http://127.0.0.1:3000/food-item/${updateInput}`)
       .then((result) => {
         if (result.data) {
-          let name = result.data.name.trim();
+          let name = result.data.name
           let ingredients = result.data.ingredients;
           let recipe = result.data.recipe;
           let resultObject = {name, ingredients, recipe};
@@ -162,7 +162,7 @@ const App= () => {
   // An event handler that submits 'Update' form - refer update-form.js
   const handleSubmitUpdate = (e) => {
     e.preventDefault();
-    let name = e.target.name.value;
+    let name = e.target.name.value.trim();
     let ingredients = e.target.ingredients.value;
     let recipe = e.target.recipe.value;
     let data = {name,ingredients,recipe}
