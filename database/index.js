@@ -27,14 +27,14 @@ connect()
 
 const addDish  = (dishItem, cb) => {
   foodItem.create(dishItem).then((response) => {
-    cb('item saved')
+    cb(`${dishItem.name} saved`)
   })
   .catch((err) => {
-    cb('error saving item into database');
+    cb(`error saving ${dishItem.name} into database`);
   });
 };
 const updateDish = (dishItem,newDish,cb) => {
-  foodItem.findOneAndUpdate({name:dishItem}, newDish, {useFindAndModify: false,upsert: true}).exec((err, res)=> {
+  foodItem.findOneAndUpdate({name:dishItem}, newDish, {useFindAndModify: false}).exec((err, res)=> {
     if(err) {
       cb(err);
     } else {
@@ -43,7 +43,7 @@ const updateDish = (dishItem,newDish,cb) => {
   });
 }
 const findDish = (item, cb) => {
-  foodItem.findOne({name:item},(err, res) => {
+  foodItem.findOne({name:item}).exec((err, res) => {
     if(err) {
       cb(err);
     }

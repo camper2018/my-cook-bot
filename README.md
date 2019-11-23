@@ -1,3 +1,5 @@
 *** cook-bot ***
-A full-stack app that saves a list of dishes and their ingredients and prints the grocery items list based on number of dishes entered or grocery list per week or per month.
-One can sort the list based on type of grocery as well e.g Meat, vegetables, fruits, dairy etc.
+
+A full stack app that serves a list of variable number of food dish names as per request,from the database (i.e grocery list for a day or a week or a month) and generates a combined grocery list from their ingredients.
+A client can add or remove dish items from food list before printing grocery list.
+A client can also perform CRUD operations on the database to maintain dish items as per need.

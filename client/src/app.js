@@ -82,7 +82,7 @@ const App= () => {
     let data = {name,ingredients,recipe};
     axios.post('http://127.0.0.1:3000/food-item/add',data)
     .then((response)=> {
-      alert(`Added ${name}`);
+      alert(response.data);
     })
     .catch((error)=> {
       alert(JSON.stringify(error));
@@ -105,7 +105,7 @@ const App= () => {
         document.getElementById('search-input').value = "";
       })
       .catch((error)=> {
-        alert(error);
+        alert(JSON.stringify(error));
       });
     }
   }
@@ -129,7 +129,7 @@ const App= () => {
         }
       })
       .catch(error => {
-        alert(error);
+        alert(JSON.stringify(error));
       });
     }
   }
@@ -155,7 +155,7 @@ const App= () => {
       }
     })
     .catch((error)=> {
-      alert(`error deleting ${name}`, error);
+      alert(`error deleting ${name}`, JSON.stringify(error));
     });
     document.getElementById('delete-input').value = "";
   }
