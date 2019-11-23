@@ -85,7 +85,7 @@ const App= () => {
       alert(response.data);
     })
     .catch((error)=> {
-      alert(JSON.stringify(error));
+      alert(error.message);
     });
     setview(1);
   }
@@ -105,7 +105,7 @@ const App= () => {
         document.getElementById('search-input').value = "";
       })
       .catch((error)=> {
-        alert(JSON.stringify(error));
+        alert(error.message);
       });
     }
   }
@@ -129,7 +129,7 @@ const App= () => {
         }
       })
       .catch(error => {
-        alert(JSON.stringify(error));
+        alert(error.message);
       });
     }
   }
@@ -145,19 +145,21 @@ const App= () => {
   // deletes the requested item from database
   const handleDelete = ()=> {
     let name = document.getElementById('delete-input').value;
-    let url = `http://127.0.0.1:3000/food-item/delete/${name}`;
-    axios.delete(url)
-    .then((response)=> {
-      if (response.data) {
-        alert(`${name} deleted`);
-      } else {
-        alert(`${name} not found`);
-      }
-    })
-    .catch((error)=> {
-      alert(`error deleting ${name}`, JSON.stringify(error));
-    });
-    document.getElementById('delete-input').value = "";
+    if (name) {
+      let url = `http://127.0.0.1:3000/food-item/delete/${name}`;
+      axios.delete(url)
+      .then((response)=> {
+        if (response.data) {
+          alert(`${name} deleted`);
+        } else {
+          alert(`${name} not found`);
+        }
+      })
+      .catch((error)=> {
+        alert(`error deleting ${name}`, error.message);
+      });
+      document.getElementById('delete-input').value = "";
+    }
   }
   // An event handler that submits 'Update' form - refer update-form.js
   const handleSubmitUpdate = (e) => {
@@ -171,7 +173,7 @@ const App= () => {
       alert(`updated ${itemToBeUpdated.name} `);
     })
     .catch((error)=> {
-      alert(JSON.stringify(error));
+      alert(error.message);
     });
     setview(1);
   }
@@ -192,6 +194,7 @@ const App= () => {
     }
     setview(2);
   }
+  // removes an ingredient from the grocery list on click
   const handleEraseIngredient = (e)=> {
     let targetLi = e.target;
     targetLi.style.display = 'none';
