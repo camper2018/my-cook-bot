@@ -62,7 +62,7 @@ const App= () => {
       </ol>
     </div>)
     }else if (view === 3) {
-      return <GroceryList groceries={groceries} />
+      return <GroceryList groceries={groceries} handleEraseIngredient={handleEraseIngredient}/>
     } else if (view === 4) {
       return <AddDishForm handleSubmitAdd={handleSubmitAdd}/>
     } else if (view === 5) {
@@ -192,7 +192,12 @@ const App= () => {
     }
     setview(2);
   }
+  const handleEraseIngredient = (e)=> {
+    let key = e.target.id;
+    let targetLi = document.getElementById(key);
+    targetLi.style.display = 'none';
 
+  }
   return (
     <div>
       <center>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // formats the data from groceries and diaplays it as a list
-const GroceryList = ({groceries}) => {
+const GroceryList = ({groceries,handleEraseIngredient}) => {
   const ingredient = {};
   for (let key in groceries) {
     let unit = '';
@@ -12,7 +12,9 @@ const GroceryList = ({groceries}) => {
       // if groceries key is a unit (i.e has -unit in it's body),
       //store it as unit
       let unitKey = key.toString() + '-unit';
-      unit = groceries[unitKey];
+      if (groceries[unitKey]){
+        unit = groceries[unitKey];
+      }
     }
     // as we set ingredient keys to ingredient's names (as above),
     // now set their values to be equal to quantity and unit if available.
@@ -32,7 +34,12 @@ const GroceryList = ({groceries}) => {
       <ul>
       {
         Object.keys(ingredient).map(item =>
-          <li key={item}>{item} : {ingredient[item]}</li>
+          <li key={item} id={item}>
+            {item} : {ingredient[item]}
+            <button id={item} onClick={handleEraseIngredient}>
+              Erase
+            </button>
+          </li>
         )
       }
       </ul>
