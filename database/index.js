@@ -8,7 +8,7 @@ const connect = () => {
 // define model schema
 const foodSchema = new mongoose.Schema({
   name: {type: String, required: true,  useCreateIndex: true},
-  ingredients: [{name:{type:String,required:true}, amount:{type: Number},unit:{type:String}}],
+  ingredients: [{name:{type:String,required:true}, amount:{type: Number},unit:{type:String,default:'unit'}}],
   recipe:String
 });
 

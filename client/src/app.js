@@ -30,18 +30,32 @@ const App= () => {
   // creates a grocery list by combining ingredients from all the items and stores it in Groceries variable
   // Groceries is used by GroceryList rendering component - refer grocery-list.js
   const generateGroceryList = ()=> {
+    // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
     let result = [];
     let obj = {};
+    let repeat = '0';
     items.forEach((item)=> {
       result = result.concat(item.ingredients);
     });
     result.forEach(ingredient => {
-      if (obj[ingredient.name]) {
+      // if ingredient is already in the object 'obj' and it's unit is same as object 'ingredient' unit then add their amounts
+      if (obj.hasOwnProperty(ingredient.name) && obj[ingredient.name + "-unit"]  === ingredient.unit) {
         obj[ingredient.name] += ingredient.amount;
         obj[ingredient.name + "-unit"] = ingredient.unit;
       } else {
-        obj[ingredient.name] = ingredient.amount;
-        obj[ingredient.name + "-unit"] = ingredient.unit;
+        // if ingredient is not in object 'obj' then set it
+        if (!obj.hasOwnProperty(ingredient.name) ) {
+          obj[ingredient.name] = ingredient.amount;
+          obj[ingredient.name + "-unit"] = ingredient.unit;
+        } else {
+          // if ingredient's name is already there as prop in 'obj' but it's unit is different from ingredient.unit,
+          // concatenate ingredient's name with repeat string to store it with a different amount and unit values.
+          let name = ingredient.name + repeat;
+          obj[name] = ingredient.amount;
+          obj[name + "-unit"] = ingredient.unit;
+          repeat+='0';
+        }
+
       }
     });
     setGroceries(obj);
