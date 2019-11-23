@@ -34,11 +34,8 @@ const GroceryList = ({groceries,handleEraseIngredient}) => {
       <ul>
       {
         Object.keys(ingredient).map(item =>
-          <li key={item} id={item}>
+          <li key={item} className="erase-ingredient" onClick={handleEraseIngredient}>
             {item} : {ingredient[item]}
-            <button id={item} onClick={handleEraseIngredient}>
-              Erase
-            </button>
           </li>
         )
       }

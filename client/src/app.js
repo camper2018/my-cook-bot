@@ -193,10 +193,8 @@ const App= () => {
     setview(2);
   }
   const handleEraseIngredient = (e)=> {
-    let key = e.target.id;
-    let targetLi = document.getElementById(key);
+    let targetLi = e.target;
     targetLi.style.display = 'none';
-
   }
   return (
     <div>

@@ -6,7 +6,6 @@ body {
   background-color: #F3F3F3;
 }
 button,.submit-btn {
-  cursor: pointer;
   border: none;
   border-radius: 3px;
   color: #F3F3F3;
@@ -17,6 +16,9 @@ button,.submit-btn {
   padding: 10px;
   font-size: 1em;
 }
+button:hover {
+  cursor: pointer;
+}
 .card {
   border: 1px solid rgba(0, 0, 0, .25);
   background-color: rgba(255, 255, 255, .5);
@@ -24,7 +26,6 @@ button,.submit-btn {
   padding-top: 20px;
   max-width: 500px;
   margin: 0 auto;
-  /* text-align: center; */
   line-height: 25px;
 }
 .select-label {
@@ -69,7 +70,17 @@ button,.submit-btn {
   border: 1px solid bold gray;
   cursor:auto;
 }
+input:focus,.form-textarea:focus {
+  background-color:lightgoldenrodyellow;
+}
 .submit-btn {
   margin-left :2px;
   cursor: pointer;
+}
+.submit-btn:active,button:active {
+  background-color:pink;
+}
+.erase-ingredient:hover {
+  cursor: pointer;
+  color:lightgray;
 }
