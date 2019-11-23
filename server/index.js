@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../database');
+const {convertFractionToFloat} = require('../client/src/index');
 const app = express();
 const port = 3000;
 const path = require('path');
@@ -25,6 +26,10 @@ const formatPostDataForDB = (data) => {
     ingredientChunks = ingredient.split(":");
     let name = ingredientChunks[0];
     let amount = ingredientChunks[1];
+    console.log('amount:',amount)
+    if (typeof amount === 'string') {
+      amount = convertFractionToFloat(amount);
+    }
     let unit = ingredientChunks[2];
     dish.ingredients.push({name,amount,unit});
   });

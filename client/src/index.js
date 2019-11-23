@@ -34,5 +34,10 @@ const fetchItems = (count,cb) => {
     cb(error);
   });
 }
+const convertFractionToFloat = (fraction)=> {
+  let split = fraction.split("/");
+  let result = parseInt(split[0], 10) / parseInt(split[1], 10);
+  return result;
+}
 
-module.exports = {fetchItems};
+module.exports = {fetchItems,convertFractionToFloat};

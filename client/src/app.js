@@ -76,7 +76,7 @@ const App= () => {
   // An event handler that submits 'Add Dish' form - refer add-fooditem-form.js
   const handleSubmitAdd = (e) => {
     e.preventDefault();
-    let name = e.target.name.value;
+    let name = e.target.name.value.trim();
     let ingredients = e.target.ingredients.value;
     let recipe = e.target.recipe.value;
     let data = {name,ingredients,recipe};
@@ -118,7 +118,7 @@ const App= () => {
       axios.get(`http://127.0.0.1:3000/food-item/${updateInput}`)
       .then((result) => {
         if (result.data) {
-          let name = result.data.name;
+          let name = result.data.name.trim();
           let ingredients = result.data.ingredients;
           let recipe = result.data.recipe;
           let resultObject = {name, ingredients, recipe};
