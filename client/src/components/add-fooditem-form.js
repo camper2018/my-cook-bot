@@ -1,7 +1,7 @@
 import React from 'react'
 
 const AddDishForm = ({handleSubmitAdd}) => {
-  const inputFormat = `FORMAT: \n(ingredient name : amount as a number : unit) \n(chicken : 2 : lbs \n tomatoes : 4 : tomatoes)`;
+  const inputFormat = `FORMAT: \n(ingredient name : amount as a number : unit) \n(chicken : 2 : lbs \n tomatoes : 4 : tomatoes)\nNote:\ningredient name should be singular, if different measure units are used,the amount will not be added in grocery list`;
   return (
     <form className="card" id="add-form" onSubmit={handleSubmitAdd} /*action="http://127.0.0.1:3000/add" method="POST"*/>
       <label className="form-label name">Dish Name: </label>

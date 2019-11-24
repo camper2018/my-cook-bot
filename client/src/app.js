@@ -33,7 +33,6 @@ const App= () => {
     // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
     let result = [];
     let obj = {};
-    let repeat = '0';
     items.forEach((item)=> {
       result = result.concat(item.ingredients);
     });
@@ -43,6 +42,7 @@ const App= () => {
         obj[ingredient.name] += ingredient.amount;
         obj[ingredient.name + "-unit"] = ingredient.unit;
       } else {
+        let repeat = '*';
         // if ingredient is not in object 'obj' then set it
         if (!obj.hasOwnProperty(ingredient.name) ) {
           obj[ingredient.name] = ingredient.amount;
@@ -50,12 +50,11 @@ const App= () => {
         } else {
           // if ingredient's name is already there as prop in 'obj' but it's unit is different from ingredient.unit,
           // concatenate ingredient's name with repeat string to store it with a different amount and unit values.
-          let name = ingredient.name + repeat;
+          let name = repeat + ingredient.name;
           obj[name] = ingredient.amount;
           obj[name + "-unit"] = ingredient.unit;
-          repeat+='0';
+          repeat+='*';
         }
-
       }
     });
     setGroceries(obj);
