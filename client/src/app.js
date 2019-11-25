@@ -234,25 +234,28 @@ const App= () => {
   // <CategoriesList/> - refer categories-list.js
   const handleEraseIngredient = (e)=> {
     let targetLi = e.target;
+    targetLi.style.display = 'none';
     let select = document.getElementById('category-select');
     let category = select.options[select.selectedIndex].value;
-    category = category.split("-");
-    category = [category[0]].concat([category[1][0].toUpperCase()+ category[1].substr(1)]).join("");
-    let result = categories[category];
-    let obj = {}
-    obj[category] = [...result,targetLi.innerHTML];
-    setCategories({...categories,...obj});
-    let itemToBeRemoved = groceries.filter(item => {
-      let val = targetLi.innerHTML.split(":")[0].trim();
-        return item === val;
-    }).join("");
-    let newGroceries = groceries.filter(item=> {
-      return item !== itemToBeRemoved;
-    });
-    targetLi.style.display = 'none';
-    setGroceries(newGroceries);
-    if (groceries.length === 1){
-      setview(7);
+    if (category !== 'default') {
+      category = category.split("-");
+      category = [category[0]].concat([category[1][0].toUpperCase()+ category[1].substr(1)]).join("");
+      let result = categories[category];
+      let obj = {}
+      obj[category] = [...result,targetLi.innerHTML];
+      setCategories({...categories,...obj});
+      let itemToBeRemoved = groceries.filter(item => {
+        let val = targetLi.innerHTML.split(":")[0].trim();
+          return item === val;
+      }).join("");
+      let newGroceries = groceries.filter(item=> {
+        return item !== itemToBeRemoved;
+      });
+
+      setGroceries(newGroceries);
+      if (groceries.length === 1){
+        setview(7);
+      }
     }
   }
 
@@ -285,6 +288,7 @@ const App= () => {
       <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
       <button onClick={handleDelete}>Delete</button>
       <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+      <label className="select-label">Choose category: </label>
       <select name="category" id="category-select" className="food-select">
         <option value="default">none</option>
         <option value="fresh-produce">fresh produce</option>
