@@ -84,3 +84,8 @@ input:focus,.form-textarea:focus {
   cursor: pointer;
   color:lightgray;
 }
+.li-categories {
+  font-size: 2em;
+  color: royalblue;
+  font-family: cursive;
+}

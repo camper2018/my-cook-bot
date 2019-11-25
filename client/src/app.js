@@ -1,23 +1,28 @@
 import React, {useState} from 'react';
 import ReactDom from 'react-dom';
 import {fetchItems} from '../../server/helpers';
-import GroceryList from './components/grocery-list'
+// import GroceryList from './components/grocery-list'
+import GroceryList from './components/grocery-list2'
 import AddDishForm from './components/add-fooditem-form';
 import FormatSearchedData from './components/format-search';
 import UpdateDishForm from './components/update-form';
+import CategoriesList from './components/categories-list';
 import axios from 'axios';
 
 const App= () => {
   // items contains fetched data as a return value of fetchItems()- refer index.js
   const [items, setItems] = useState([]);
   // groceries contains generated grocery list from items - refer grocery-list.js
-  const [groceries, setGroceries] = useState({});
+  // const [groceries, setGroceries] = useState({});
+  const [groceries, setGroceries] = useState([]);
   // view is a number that switch rendering between different components via SwitchComponent - see below
   const [view, setview] = useState(1);
   // searchedData is a data returned as a result of search query -refer handleSearch() below
   const [searchedData, setSearchedData] = useState(null);
   // itemToBeUpdated is an object that refers to the item to be updated  - refer handleUpdate() below
   const [itemToBeUpdated, setItemToBeUpdated] = useState(null);
+  // categories is an object with properties as various food categories and values an array that stores items in respective category when a client selects a category and clicks on that item.
+  const [categories,setCategories]= useState({freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[]});
 
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
@@ -29,35 +34,49 @@ const App= () => {
   }
   // creates a grocery list by combining ingredients from all the items and stores it in Groceries variable
   // Groceries is used by GroceryList rendering component - refer grocery-list.js
+  // const generateGroceryList = ()=> {
+  //   // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
+  //   let result = [];
+  //   let obj = {};
+  //   items.forEach((item)=> {
+  //     result = result.concat(item.ingredients);
+  //   });
+  //   result.forEach(ingredient => {
+  //     // if ingredient is already in the object 'obj' and it's unit is same as object 'ingredient' unit then add their amounts
+  //     if (obj.hasOwnProperty(ingredient.name) && obj[ingredient.name + "-unit"]  === ingredient.unit) {
+  //       obj[ingredient.name] += ingredient.amount;
+  //       obj[ingredient.name + "-unit"] = ingredient.unit;
+  //     } else {
+  //       let repeat = '*';
+  //       // if ingredient is not in object 'obj' then set it
+  //       if (!obj.hasOwnProperty(ingredient.name) ) {
+  //         obj[ingredient.name] = ingredient.amount;
+  //         obj[ingredient.name + "-unit"] = ingredient.unit;
+  //       } else {
+  //         // if ingredient's name is already there as prop in 'obj' but it's unit is different from ingredient.unit,
+  //         // concatenate ingredient's name with repeat string to store it with a different amount and unit values.
+  //         let name = repeat + ingredient.name;
+  //         obj[name] = ingredient.amount;
+  //         obj[name + "-unit"] = ingredient.unit;
+  //         repeat+='*';
+  //       }
+  //     }
+  //   });
+
+  //   setGroceries(obj);
+  //   setview(3);
+  // }
+
   const generateGroceryList = ()=> {
-    // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
-    let result = [];
-    let obj = {};
+    let ingredients = [];
     items.forEach((item)=> {
-      result = result.concat(item.ingredients);
+      ingredients = ingredients.concat(item.ingredients);
     });
-    result.forEach(ingredient => {
-      // if ingredient is already in the object 'obj' and it's unit is same as object 'ingredient' unit then add their amounts
-      if (obj.hasOwnProperty(ingredient.name) && obj[ingredient.name + "-unit"]  === ingredient.unit) {
-        obj[ingredient.name] += ingredient.amount;
-        obj[ingredient.name + "-unit"] = ingredient.unit;
-      } else {
-        let repeat = '*';
-        // if ingredient is not in object 'obj' then set it
-        if (!obj.hasOwnProperty(ingredient.name) ) {
-          obj[ingredient.name] = ingredient.amount;
-          obj[ingredient.name + "-unit"] = ingredient.unit;
-        } else {
-          // if ingredient's name is already there as prop in 'obj' but it's unit is different from ingredient.unit,
-          // concatenate ingredient's name with repeat string to store it with a different amount and unit values.
-          let name = repeat + ingredient.name;
-          obj[name] = ingredient.amount;
-          obj[name + "-unit"] = ingredient.unit;
-          repeat+='*';
-        }
-      }
+    let ingredientNames = ingredients.map(ingredient => {
+      return ingredient.name;
     });
-    setGroceries(obj);
+    ingredientNames = [...new Set(ingredientNames)];
+    setGroceries(ingredientNames);
     setview(3);
   }
   // changes view to render AddDishForm component
@@ -82,6 +101,8 @@ const App= () => {
       return <FormatSearchedData handleAddToList={handleAddToList} searchedData={searchedData}/>
     } else if (view === 6) {
       return <UpdateDishForm itemToBeUpdated={itemToBeUpdated} handleSubmitUpdate={handleSubmitUpdate}/>
+    } else if (view === 7) {
+      return <CategoriesList categories={categories}></CategoriesList>
     } else {
       return null
     }
@@ -208,10 +229,33 @@ const App= () => {
     setview(2);
   }
   // removes an ingredient from the grocery list on click
+  // also saves the ingredient in a list of selected category in the categories object
+  // finally when all items in the list are categorized, it changes view to render
+  // <CategoriesList/> - refer categories-list.js
   const handleEraseIngredient = (e)=> {
     let targetLi = e.target;
+    let select = document.getElementById('category-select');
+    let category = select.options[select.selectedIndex].value;
+    category = category.split("-");
+    category = [category[0]].concat([category[1][0].toUpperCase()+ category[1].substr(1)]).join("");
+    let result = categories[category];
+    let obj = {}
+    obj[category] = [...result,targetLi.innerHTML];
+    setCategories({...categories,...obj});
+    let itemToBeRemoved = groceries.filter(item => {
+      let val = targetLi.innerHTML.split(":")[0].trim();
+        return item === val;
+    }).join("");
+    let newGroceries = groceries.filter(item=> {
+      return item !== itemToBeRemoved;
+    });
     targetLi.style.display = 'none';
+    setGroceries(newGroceries);
+    if (groceries.length === 1){
+      setview(7);
+    }
   }
+
   return (
     <div>
       <center>
@@ -241,6 +285,20 @@ const App= () => {
       <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
       <button onClick={handleDelete}>Delete</button>
       <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+      <select name="category" id="category-select" className="food-select">
+        <option value="default">none</option>
+        <option value="fresh-produce">fresh produce</option>
+        <option value="dairy-eggs">dairy cheese and eggs</option>
+        <option value="frozen-food">frozen foods</option>
+        <option value="oil-condiments">oil sauces condiments</option>
+        <option value="meats-seafood">meats and seafood</option>
+        <option value="bakery-bread">bakery and bread</option>
+        <option value="pasta-rice">pasta and rice</option>
+        <option value="cereal-breakfast">cereal and breakfast</option>
+        <option value="soups-cans">soups and cans</option>
+        <option value="drinks-coffee">beverages</option>
+        <option value="cookies-snacks">cookies snacks and candy</option>
+      </select>
       <div className="main">
         {
           <SwitchComponent/>

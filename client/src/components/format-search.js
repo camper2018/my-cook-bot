@@ -12,7 +12,10 @@ const FormatSearchedData = ({searchedData,handleAddToList})=> {
       <ul>
       {
         ingredients.map((ingredient)=>
+          (ingredient.unit !== 'unit')?
           <li key={ingredient.name}>{ingredient.name}: {ingredient.amount} {ingredient.unit}</li>
+          :
+          <li key={ingredient.name}>{ingredient.name}: {ingredient.amount}</li>
         )
       }
       </ul>
