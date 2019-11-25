@@ -235,8 +235,17 @@ const App= () => {
   const handleEraseIngredient = (e)=> {
     let targetLi = e.target;
     targetLi.style.display = 'none';
+    let itemToBeRemoved = groceries.filter(item => {
+      let val = targetLi.innerHTML.split(":")[0].trim();
+        return item === val;
+    }).join("");
+    let newGroceries = groceries.filter(item=> {
+      return item !== itemToBeRemoved;
+    });
+    setGroceries(newGroceries);
     let select = document.getElementById('category-select');
     let category = select.options[select.selectedIndex].value;
+    // the code below will store ingredients in their respective categories
     if (category !== 'default') {
       category = category.split("-");
       category = [category[0]].concat([category[1][0].toUpperCase()+ category[1].substr(1)]).join("");
@@ -244,18 +253,9 @@ const App= () => {
       let obj = {}
       obj[category] = [...result,targetLi.innerHTML];
       setCategories({...categories,...obj});
-      let itemToBeRemoved = groceries.filter(item => {
-        let val = targetLi.innerHTML.split(":")[0].trim();
-          return item === val;
-      }).join("");
-      let newGroceries = groceries.filter(item=> {
-        return item !== itemToBeRemoved;
-      });
-
-      setGroceries(newGroceries);
-      if (groceries.length === 1){
-        setview(7);
-      }
+    }
+    if (groceries.length === 1){
+      setview(7);
     }
   }
 
