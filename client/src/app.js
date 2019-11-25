@@ -22,7 +22,8 @@ const App= () => {
   // itemToBeUpdated is an object that refers to the item to be updated  - refer handleUpdate() below
   const [itemToBeUpdated, setItemToBeUpdated] = useState(null);
   // categories is an object with properties as various food categories and values an array that stores items in respective category when a client selects a category and clicks on that item.
-  const [categories,setCategories]= useState({freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[]});
+  let defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[]};
+  const [categories,setCategories]= useState(defaultCategories);
 
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
@@ -258,6 +259,9 @@ const App= () => {
       setview(7);
     }
   }
+  const handleReset = ()=> {
+    setCategories(defaultCategories);
+  }
 
   return (
     <div>
@@ -303,6 +307,7 @@ const App= () => {
         <option value="drinks-coffee">beverages</option>
         <option value="cookies-snacks">cookies snacks and candy</option>
       </select>
+      <button onClick={handleReset}>Reset categories</button>
       <div className="main">
         {
           <SwitchComponent/>
