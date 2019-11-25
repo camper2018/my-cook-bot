@@ -1,6 +1,6 @@
 import React from 'react';
 import CategoryList from './category-list';
-
+import {changeCategoriesFormat} from '../../../server/helpers'
 const CategortiesList = ({categories}) => {
   return (
     <React.Fragment>
@@ -8,7 +8,7 @@ const CategortiesList = ({categories}) => {
       Object.keys(categories).map((category) =>
           categories[category].length > 0 ?
         (<div className="card" key={category}>
-          <h3 className="li-categories">{category}</h3>
+          <h3 className="li-categories">{changeCategoriesFormat(category)}</h3>
           <CategoryList categories={categories} category={category}/>
         </div>)
         :

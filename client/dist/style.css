@@ -84,8 +84,11 @@ input:focus,.form-textarea:focus {
   cursor: pointer;
   color:lightgray;
 }
+
 .li-categories {
-  font-size: 2em;
+  font-size: 1.5em;
   color: royalblue;
-  font-family: cursive;
+  font-family:'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  margin:5px 0 5px 20px;
+  padding-bottom:5px;
 }

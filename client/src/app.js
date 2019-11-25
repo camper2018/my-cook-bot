@@ -78,7 +78,11 @@ const App= () => {
     });
     ingredientNames = [...new Set(ingredientNames)];
     setGroceries(ingredientNames);
+    let select = document.getElementById('category-select');
+    select.value = 'default';
+    setCategories(defaultCategories);
     setview(3);
+
   }
   // changes view to render AddDishForm component
   const handleAdd = ()=> {

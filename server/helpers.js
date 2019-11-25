@@ -63,8 +63,22 @@ const formatPostDataForDB = (data) => {
   });
   return dish;
 }
+const changeCategoriesFormat = (category)=> {
+  let index = 0;
+  for (var i = 0; i < category.length; i++) {
+    if (category.charCodeAt(i) >= 65 && category.charCodeAt(i) <= 90) {
+      index = i;
+      break;
+    }
+  }
+  let str1 = category.substr(0,index);
+  let str2 = category.substr(index);
+  str1 = str1[0].toUpperCase() + str1.substr(1);
+  let newCategory = (str1 + ' ' + str2);
+  return newCategory;
+}
 
 
 
 
-module.exports = {formatPostDataForDB,fetchItems}
+module.exports = {formatPostDataForDB,fetchItems,changeCategoriesFormat}
