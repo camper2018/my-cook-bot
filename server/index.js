@@ -30,7 +30,6 @@ app.get('/food-item/:name', (req, res) => {
 app.post('/food-item/add',(req, res)=> {
   let item = req.body;
   let dishItem = formatPostDataForDB(item);
-  console.log(dishItem)
   db.addDish(dishItem, (result)=> {
     res.send(result);
   })

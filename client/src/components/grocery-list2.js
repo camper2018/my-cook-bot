@@ -1,17 +1,22 @@
 import React from 'react';
 
-// formats the data from groceries and diaplays it as a list
-const GroceryList = ({groceries,handleEraseIngredient}) => {
+// formats the data from groceries2 and diaplays it as a list
+const GroceryList2 = ({groceries2,handleEraseIngredient2}) => {
+  console.log('groceries2:', groceries2)
   return (
     <div className="card">
       <h1>Grocery List</h1>
       <ul>
       {
-        groceries.map(item =>
-          <li key={item} className="erase-ingredient" onClick={handleEraseIngredient}>
-            {item}
+        Object.keys(groceries2).map(item =>
+          groceries2[item][1] !== 'unit'?
+          <li key={item} className="erase-ingredient" onClick={handleEraseIngredient2}>
+            {item} : {groceries2[item][0]}  {groceries2[item][1]}
           </li>
-
+          :
+          <li key={item} className="erase-ingredient" onClick={handleEraseIngredient2}>
+            {item} : {groceries2[item][0]}
+          </li>
         )
       }
       </ul>
@@ -19,4 +24,5 @@ const GroceryList = ({groceries,handleEraseIngredient}) => {
   );
 
 }
-export default GroceryList;
+export default GroceryList2;
+

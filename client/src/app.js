@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import ReactDom from 'react-dom';
 import {fetchItems} from '../../server/helpers';
-// import GroceryList from './components/grocery-list'
-import GroceryList from './components/grocery-list2'
+import GroceryList2 from './components/grocery-list2'
+import GroceryList from './components/grocery-list'
 import AddDishForm from './components/add-fooditem-form';
 import FormatSearchedData from './components/format-search';
 import UpdateDishForm from './components/update-form';
@@ -13,7 +13,7 @@ const App= () => {
   // items contains fetched data as a return value of fetchItems()- refer index.js
   const [items, setItems] = useState([]);
   // groceries contains generated grocery list from items - refer grocery-list.js
-  // const [groceries, setGroceries] = useState({});
+  const [groceries2, setGroceries2] = useState({});
   const [groceries, setGroceries] = useState([]);
   // view is a number that switch rendering between different components via SwitchComponent - see below
   const [view, setview] = useState(1);
@@ -24,7 +24,6 @@ const App= () => {
   // categories is an object with properties as various food categories and values an array that stores items in respective category when a client selects a category and clicks on that item.
   let defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[]};
   const [categories,setCategories]= useState(defaultCategories);
-
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
     let count = Number(e.target.value);
@@ -35,38 +34,6 @@ const App= () => {
   }
   // creates a grocery list by combining ingredients from all the items and stores it in Groceries variable
   // Groceries is used by GroceryList rendering component - refer grocery-list.js
-  // const generateGroceryList = ()=> {
-  //   // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
-  //   let result = [];
-  //   let obj = {};
-  //   items.forEach((item)=> {
-  //     result = result.concat(item.ingredients);
-  //   });
-  //   result.forEach(ingredient => {
-  //     // if ingredient is already in the object 'obj' and it's unit is same as object 'ingredient' unit then add their amounts
-  //     if (obj.hasOwnProperty(ingredient.name) && obj[ingredient.name + "-unit"]  === ingredient.unit) {
-  //       obj[ingredient.name] += ingredient.amount;
-  //       obj[ingredient.name + "-unit"] = ingredient.unit;
-  //     } else {
-  //       let repeat = '*';
-  //       // if ingredient is not in object 'obj' then set it
-  //       if (!obj.hasOwnProperty(ingredient.name) ) {
-  //         obj[ingredient.name] = ingredient.amount;
-  //         obj[ingredient.name + "-unit"] = ingredient.unit;
-  //       } else {
-  //         // if ingredient's name is already there as prop in 'obj' but it's unit is different from ingredient.unit,
-  //         // concatenate ingredient's name with repeat string to store it with a different amount and unit values.
-  //         let name = repeat + ingredient.name;
-  //         obj[name] = ingredient.amount;
-  //         obj[name + "-unit"] = ingredient.unit;
-  //         repeat+='*';
-  //       }
-  //     }
-  //   });
-
-  //   setGroceries(obj);
-  //   setview(3);
-  // }
 
   const generateGroceryList = ()=> {
     let ingredients = [];
@@ -108,6 +75,8 @@ const App= () => {
       return <UpdateDishForm itemToBeUpdated={itemToBeUpdated} handleSubmitUpdate={handleSubmitUpdate}/>
     } else if (view === 7) {
       return <CategoriesList categories={categories}></CategoriesList>
+    } else if (view === 8) {
+      return <GroceryList2 groceries2={groceries2} handleEraseIngredient2={handleEraseIngredient2}/>
     } else {
       return null
     }
@@ -266,7 +235,60 @@ const App= () => {
   const handleReset = ()=> {
     setCategories(defaultCategories);
   }
+  const generateGroceryList2 = ()=> {
+    // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
+    let obj = {};
+    let names = [];
+    let amounts = [];
+    let units = [];
+    items.forEach((item)=> {
+      item.ingredients.forEach(ingredient => {
+        names.push(ingredient.name);
+        amounts.push(ingredient.amount);
+        units.push(ingredient.unit);
+      });
+    });
+    for (var i = 0; i < names.length; i++) {
+      if (obj.hasOwnProperty(names[i])){
+        if (obj[names[i]][1] === units[i]) {
+          obj[names[i]][0]+= amounts[i];
+        }
+      } else {
+        obj[names[i]] = [amounts[i],units[i]];
+      }
+    }
+    setGroceries2(obj);
+    setview(8);
+    let select = document.getElementById('category-select');
+    select.value = 'default';
+    setCategories(defaultCategories);
+  }
 
+  const handleEraseIngredient2 = (e)=> {
+    let targetLi = e.target;
+    targetLi.style.display = 'none';
+    let itemToBeRemoved = Object.keys({...groceries2}).filter(item => {
+      let val = targetLi.innerHTML.split(":")[0].trim();
+      return item === val;
+    }).join("");
+    let newGroceries = groceries2;
+    delete newGroceries[itemToBeRemoved];
+    setGroceries2(newGroceries);
+    let select = document.getElementById('category-select');
+    let category = select.options[select.selectedIndex].value;
+    // the code below will store ingredients in their respective categories
+    if (category !== 'default') {
+      category = category.split("-");
+      category = [category[0]].concat([category[1][0].toUpperCase()+ category[1].substr(1)]).join("");
+      let result = categories[category];
+      let obj = {}
+      obj[category] = [...result,targetLi.innerHTML];
+      setCategories({...categories,...obj});
+    }
+    if (Object.keys(groceries2).length === 1){
+      setview(7);
+    }
+  }
   return (
     <div>
       <center>
@@ -312,6 +334,7 @@ const App= () => {
         <option value="cookies-snacks">cookies snacks and candy</option>
       </select>
       <button onClick={handleReset}>Reset categories</button>
+      <button onClick={generateGroceryList2}>Grocery List With Quantity</button>
       <div className="main">
         {
           <SwitchComponent/>
