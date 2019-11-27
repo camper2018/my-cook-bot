@@ -232,9 +232,9 @@ const App= () => {
       setview(7);
     }
   }
-  const handleReset = ()=> {
-    setCategories(defaultCategories);
-  }
+  // const handleReset = ()=> {
+  //   setCategories(defaultCategories);
+  // }
   const generateGroceryList2 = ()=> {
     // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
     let obj = {};
@@ -291,11 +291,7 @@ const App= () => {
   }
   return (
     <div>
-      <center>
-        <h1>
-          Welcome To Your Cook Bot
-        </h1>
-      </center>
+      <nav>
       <label className="select-label">List food items for </label>
       <select onChange={generateList} name="food-list" className="food-select">
         <option value="0">none</option>
@@ -311,13 +307,7 @@ const App= () => {
         <option value="30">1 month</option>
       </select>
       <button onClick={generateGroceryList}>Generate Grocery List</button>
-      <button onClick={handleAdd}>Add Dish</button>
-      <button onClick={handleSearch}>Search</button>
-      <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
-      <button onClick={handleUpdate}>Update</button>
-      <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
-      <button onClick={handleDelete}>Delete</button>
-      <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+      <button onClick={generateGroceryList2}>Grocery List With Quantity</button>
       <label className="select-label">Choose category: </label>
       <select name="category" id="category-select" className="food-select">
         <option value="default">none</option>
@@ -333,14 +323,30 @@ const App= () => {
         <option value="drinks-coffee">beverages</option>
         <option value="cookies-snacks">cookies snacks and candy</option>
       </select>
-      <button onClick={handleReset}>Reset categories</button>
-      <button onClick={generateGroceryList2}>Grocery List With Quantity</button>
+      </nav>
+      <center>
+        <h1>
+          Welcome To Your Cook Bot
+        </h1>
+      </center>
+      <div id="database">
+      <button id="add-button" onClick={handleAdd}>Add Dish</button>
+      <button onClick={handleSearch}>Search</button>
+      <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
+      <button onClick={handleUpdate}>Update</button>
+      <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
+      <button onClick={handleDelete}>Delete</button>
+      <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+      {/* <button onClick={handleReset}>Reset categories</button> */}
+      </div>
+
       <div className="main">
         {
           <SwitchComponent/>
         }
       </div>
     </div>
+
   );
 }
 

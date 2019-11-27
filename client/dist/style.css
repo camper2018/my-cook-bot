@@ -92,3 +92,21 @@ input:focus,.form-textarea:focus {
   margin:5px 0 5px 20px;
   padding-bottom:5px;
 }
+#add-button {
+  margin-left:225px;
+}
+nav{
+  padding-top:25px;
+  background-color:lightgreen;
+  /* margin-bottom:20px; */
+}
+#database {
+  background-color: peachpuff;
+  padding-top:25px;
+  margin-bottom:20px;
+}
+h1 {
+  background-color:lightblue;
+  padding:20px;
+  margin:0;
+}
