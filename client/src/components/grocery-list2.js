@@ -2,7 +2,6 @@ import React from 'react';
 
 // formats the data from groceries2 and diaplays it as a list
 const GroceryList2 = ({groceries2,handleEraseIngredient2}) => {
-  console.log('groceries2:', groceries2)
   return (
     <div className="card">
       <h1>Grocery List</h1>

@@ -3,7 +3,8 @@ body {
   font-family: 'Jeju Gothic', sans-serif;
   margin: 0px;
   color: #292929;
-  background-color: #F3F3F3;
+  /* background-color: #F3F3F3; */
+  background-color:lightgoldenrodyellow;
 }
 button,.submit-btn {
   border: none;
@@ -27,6 +28,7 @@ button:hover {
   max-width: 500px;
   margin: 0 auto;
   line-height: 25px;
+  background: rgba(f, f, f, 1)
 }
 .select-label {
   color: blue;
@@ -92,21 +94,25 @@ input:focus,.form-textarea:focus {
   margin:5px 0 5px 20px;
   padding-bottom:5px;
 }
-#add-button {
-  margin-left:225px;
-}
+
 nav{
   padding-top:25px;
   background-color:lightgreen;
-  /* margin-bottom:20px; */
 }
 #database {
   background-color: peachpuff;
   padding-top:25px;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 h1 {
   background-color:lightblue;
   padding:20px;
   margin:0;
+}
+ body {
+  background-image:url("https://previews.123rf.com/images/romastudio/romastudio1603/romastudio160300228/54088697-healthy-eating-background-food-photography-different-fruits-and-vegetables-isolated-white-background.jpg");
+  background-blend-mode: multiply;
+  background-attachment: scroll;
+  background-size:100%;
+
 }

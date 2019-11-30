@@ -330,14 +330,15 @@ const App= () => {
         </h1>
       </center>
       <div id="database">
-      <button id="add-button" onClick={handleAdd}>Add Dish</button>
-      <button onClick={handleSearch}>Search</button>
-      <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
-      <button onClick={handleUpdate}>Update</button>
-      <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
-      <button onClick={handleDelete}>Delete</button>
-      <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
-      {/* <button onClick={handleReset}>Reset categories</button> */}
+        <center>
+          <button id="add-button" onClick={handleAdd}>Add Dish</button>
+          <button onClick={handleSearch}>Search</button>
+          <input id="search-input" type="text" name="search" placeholder="SEARCH dish"/>
+          <button onClick={handleUpdate}>Update</button>
+          <input id="update-input" type="text" name="update" placeholder="UPDATE dish"/>
+          <button onClick={handleDelete}>Delete</button>
+          <input id="delete-input" type="text" name="delete" placeholder="DELETE dish"/>
+        </center>
       </div>
 
       <div className="main">
