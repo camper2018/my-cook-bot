@@ -289,6 +289,10 @@ const App= () => {
       setview(7);
     }
   }
+  const handleAddIngredients = ()=> {
+    let itemtoAdd = document.getElementById('add-items').value;
+    setGroceries([...groceries,itemtoAdd]);
+  }
   return (
     <div>
       <nav>
@@ -308,6 +312,8 @@ const App= () => {
       </select>
       <button onClick={generateGroceryList}>Generate Grocery List</button>
       <button onClick={generateGroceryList2}>Grocery List With Quantity</button>
+      <button onClick={handleAddIngredients}>Add Items To List</button>
+      <input type="text" id="add-items"></input>
       <label className="select-label">Choose category: </label>
       <select name="category" id="category-select" className="food-select">
         <option value="default">none</option>
