@@ -1,5 +1,5 @@
 {
-  "name": "my-cook-bot",
+  "name": "my-cookbot",
   "version": "1.0.0",
   "description": "My Grocery Planner",
   "main": "webpack.config.js",

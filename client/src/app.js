@@ -289,9 +289,11 @@ const App= () => {
       setview(7);
     }
   }
+  // the handler below will add new items to the final grocery list
   const handleAddIngredients = ()=> {
     let itemtoAdd = document.getElementById('add-items').value;
     setGroceries([...groceries,itemtoAdd]);
+    document.getElementById('add-items').value = "";
   }
   return (
     <div>

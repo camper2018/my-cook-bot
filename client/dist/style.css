@@ -3,7 +3,6 @@ body {
   font-family: 'Jeju Gothic', sans-serif;
   margin: 0px;
   color: #292929;
-  /* background-color: #F3F3F3; */
   background-color:lightgoldenrodyellow;
 }
 button,.submit-btn {
@@ -11,8 +10,8 @@ button,.submit-btn {
   border-radius: 3px;
   color: #F3F3F3;
   background-color: #C0163A;
-  margin-right: 15px;
-  margin-left: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
   margin-bottom: 30px;
   padding: 10px;
   font-size: 1em;
@@ -114,5 +113,6 @@ h1 {
   background-blend-mode: multiply;
   background-attachment: scroll;
   background-size:100%;
+  background-color:lightgoldenrodyellow;
 
 }
