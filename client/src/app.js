@@ -22,7 +22,7 @@ const App= () => {
   // itemToBeUpdated is an object that refers to the item to be updated  - refer handleUpdate() below
   const [itemToBeUpdated, setItemToBeUpdated] = useState(null);
   // categories is an object with properties as various food categories and values an array that stores items in respective category when a client selects a category and clicks on that item.
-  let defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[]};
+  let defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[],extraStuff:[]};
   const [categories,setCategories]= useState(defaultCategories);
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
@@ -325,11 +325,12 @@ const App= () => {
         <option value="oil-condiments">oil sauces condiments</option>
         <option value="meats-seafood">meats and seafood</option>
         <option value="bakery-bread">bakery and bread</option>
-        <option value="pasta-rice">pasta and rice</option>
+        <option value="pasta-rice">pasta flour and rice</option>
         <option value="cereal-breakfast">cereal and breakfast</option>
         <option value="soups-cans">soups and cans</option>
         <option value="drinks-coffee">beverages</option>
         <option value="cookies-snacks">cookies snacks and candy</option>
+        <option value="extra-stuff">miscellaneous</option>
       </select>
       </nav>
       <center>
