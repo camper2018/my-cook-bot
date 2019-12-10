@@ -22,7 +22,7 @@ const App= () => {
   // itemToBeUpdated is an object that refers to the item to be updated  - refer handleUpdate() below
   const [itemToBeUpdated, setItemToBeUpdated] = useState(null);
   // categories is an object with properties as various food categories and values an array that stores items in respective category when a client selects a category and clicks on that item.
-  let defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[],extraStuff:[]};
+  const defaultCategories = {freshProduce:[],dairyEggs:[],frozenFood:[],oilCondiments:[],meatsSeafood:[],bakeryBread:[],cerealBreakfast:[],pastaRice:[],soupsCans:[],drinksCoffee:[],cookiesSnacks:[],extraStuff:[]};
   const [categories,setCategories]= useState(defaultCategories);
   // generates a list of items by fetching from database - refer index.js for fetchItems()
   const generateList = (e) => {
@@ -32,8 +32,8 @@ const App= () => {
       setview(2);
     });
   }
-  // creates a grocery list by combining ingredients from all the items and stores it in Groceries variable
-  // Groceries is used by GroceryList rendering component - refer grocery-list.js
+  // creates a grocery list by combining ingredients from all the items and stores it in groceries variable
+  // groceries array is used by GroceryList rendering component - refer grocery-list.js
 
   const generateGroceryList = ()=> {
     let ingredients = [];
@@ -51,6 +51,38 @@ const App= () => {
     setview(3);
 
   }
+  // creates a grocery list by combining ingredients from all the items and stores it in groceries2 variable
+  // the list contains ingredients along with their quantities
+  // groceries2 object is used by GroceryList2 rendering component - refer grocery-list2.js
+  const generateGroceryList2 = ()=> {
+    let obj = {};
+    let names = [];
+    let amounts = [];
+    let units = [];
+    items.forEach((item)=> {
+      item.ingredients.forEach(ingredient => {
+        names.push(ingredient.name);
+        amounts.push(ingredient.amount);
+        units.push(ingredient.unit);
+      });
+    });
+    for (var i = 0; i < names.length; i++) {
+      if (obj.hasOwnProperty(names[i])){
+        if (obj[names[i]][1] === units[i]) {
+          obj[names[i]][0]+= amounts[i];
+        }
+      } else {
+        obj[names[i]] = [amounts[i],units[i]];
+      }
+    }
+    setGroceries2(obj);
+    setview(8);
+    // with each new grocery list creation, reset the categories to defaultCategories value
+    let select = document.getElementById('category-select');
+    select.value = 'default';
+    setCategories(defaultCategories);
+  }
+
   // changes view to render AddDishForm component
   const handleAdd = ()=> {
     setview(4);
@@ -117,7 +149,7 @@ const App= () => {
       });
     }
   }
-  // sets value of updateItem to input value of update query
+  //stores the result of update query in itemToBeUpdated state variable
   //changes view to render UpdateDishForm component - refer update-form.js
   const handleUpdate = () => {
     const updateInput = document.getElementById('update-input').value;
@@ -141,7 +173,7 @@ const App= () => {
       });
     }
   }
-  //Removes/filters the item from the items variable when client clicks on erase button.
+  //Removes/filters the item from the items state variable when client clicks on erase button.
   const handleErase = (e) => {
     let name = e.target.id;
     let newItems = items.filter((item)=> {
@@ -185,9 +217,9 @@ const App= () => {
     });
     setview(1);
   }
-  // when a searched item needs to be added to the lists of items and groceries,
-  // this handler on 'Add To List' button checks for any duplicate entry,
-  // then adds the searched item to the grocery list
+  // when a searched item needs to be added to the list of food dishes and grocery list
+  // this handler on 'Add To List' button checks for any duplicate entry
+  // then adds the searched item to the items state which is then used to generate grocery list
   const handleAddToList = ()=> {
     let wasFound = false;
     items.forEach(item => {
@@ -204,8 +236,7 @@ const App= () => {
   }
   // removes an ingredient from the grocery list on click
   // also saves the ingredient in a list of selected category in the categories object
-  // finally when all items in the list are categorized, it changes view to render
-  // <CategoriesList/> - refer categories-list.js
+  // finally when all items in the list are organized in categories, it changes view to render <CategoriesList/> - refer categories-list.js
   const handleEraseIngredient = (e)=> {
     let targetLi = e.target;
     targetLi.style.display = 'none';
@@ -232,38 +263,8 @@ const App= () => {
       setview(7);
     }
   }
-  // const handleReset = ()=> {
-  //   setCategories(defaultCategories);
-  // }
-  const generateGroceryList2 = ()=> {
-    // result is an array of all ingredients, ingredients are objects with name,amount and a unit properties
-    let obj = {};
-    let names = [];
-    let amounts = [];
-    let units = [];
-    items.forEach((item)=> {
-      item.ingredients.forEach(ingredient => {
-        names.push(ingredient.name);
-        amounts.push(ingredient.amount);
-        units.push(ingredient.unit);
-      });
-    });
-    for (var i = 0; i < names.length; i++) {
-      if (obj.hasOwnProperty(names[i])){
-        if (obj[names[i]][1] === units[i]) {
-          obj[names[i]][0]+= amounts[i];
-        }
-      } else {
-        obj[names[i]] = [amounts[i],units[i]];
-      }
-    }
-    setGroceries2(obj);
-    setview(8);
-    let select = document.getElementById('category-select');
-    select.value = 'default';
-    setCategories(defaultCategories);
-  }
-
+  // same as handleEraseIngredient handler above but it works with click event from GroceryListWithquantity button
+  // updates the state variable 'groceries2'
   const handleEraseIngredient2 = (e)=> {
     let targetLi = e.target;
     targetLi.style.display = 'none';
@@ -285,14 +286,20 @@ const App= () => {
       obj[category] = [...result,targetLi.innerHTML];
       setCategories({...categories,...obj});
     }
-    if (Object.keys(groceries2).length === 1){
+    if (Object.keys(groceries2).length === 0){
       setview(7);
     }
   }
   // the handler below will add new items to the final grocery list
   const handleAddIngredients = ()=> {
     let itemtoAdd = document.getElementById('add-items').value;
+    let segments = itemtoAdd.split(":");
+    let itemName = segments[0];
+    let itemAmount = segments[1];
+    let itemAdded = {};
+    itemAdded[itemName] = [itemAmount];
     setGroceries([...groceries,itemtoAdd]);
+    setGroceries2({...groceries2,...itemAdded});
     document.getElementById('add-items').value = "";
   }
   return (
